@@ -18,9 +18,9 @@ namespace UdemBank
         public int SavingId { get; set; }
         [ForeignKey(nameof(SavingId))]
 
-        public double Amount { get; set; } 
-
         public Saving Saving { get; set; }
+
+        public double Amount { get; set; } 
 
         public TradeType Type { get; set; }
 

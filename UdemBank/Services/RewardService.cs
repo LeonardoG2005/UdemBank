@@ -17,7 +17,7 @@ namespace UdemBank.Services
             // inyectarle el 10%
             double percent = savingGroup.TotalAmount * 0.10;
             SavingGroupController.AddAmountToSavingGroup(savingGroup, percent);
-            Console.WriteLine("Se premió al grupo de ahorro : " + savingGroup.Name + "con una transacción de valor : " + percent.ToString());
+            Console.WriteLine("Se premió al grupo de ahorro : " + savingGroup.Name + " con una transacción de valor : " + percent.ToString());
             Console.ReadLine();
             Console.Clear();
         }

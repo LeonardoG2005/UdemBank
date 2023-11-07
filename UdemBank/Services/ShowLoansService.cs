@@ -12,9 +12,13 @@ namespace UdemBank.Services
         public static Loan? GetLoanOptionInput(User user)
         {
             var loans = LoanController.GetLoansByUser(user);
+
+            // Filtrar los préstamos para obtener solo los que tienen Paid == false
+            loans = loans.Where(loan => !loan.Paid).ToList();
+
             if (!loans.Any())
             {
-                Console.WriteLine("El usuario no ha hecho ningún préstamo...");
+                Console.WriteLine("El usuario no tiene préstamos pendientes...");
                 Console.ReadLine();
                 AnsiConsole.Clear();
                 return null;

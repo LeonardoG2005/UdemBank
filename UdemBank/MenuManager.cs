@@ -26,6 +26,7 @@ namespace UdemBank
             SacarDineroCuenta,
             VerOpcionesGrupoDeAhorro,
             PagarPrestamo,
+            SolicitarPrestamo,
             Salir
         }
         public enum SavingGroupInitOption
@@ -168,6 +169,7 @@ namespace UdemBank
                             UserMenuOption.SacarDineroCuenta,
                             UserMenuOption.VerOpcionesGrupoDeAhorro,
                             UserMenuOption.PagarPrestamo,
+                            UserMenuOption.SolicitarPrestamo,
                             UserMenuOption.Salir
                         )
                 );
@@ -202,7 +204,10 @@ namespace UdemBank
                         {
                             user = PayLoanService.ShowInfoAndPayLoan(user, loan);
                         }
-                        
+                        break;
+
+                    case UserMenuOption.SolicitarPrestamo:
+                        CreateLoanService.ShowAvailableSavingGroups(user);
                         break;
 
                     case UserMenuOption.Salir:

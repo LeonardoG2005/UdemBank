@@ -30,10 +30,6 @@ namespace UdemBank
         {
             SavingGroup? savingGroup = SavingGroupController.GetSavingGroupById(loan.Saving.SavingGroupId);
 
-            // Meter la cantidad en el savingGroup
-            SavingGroupController.AddAmountToSavingGroup(savingGroup, loan.Amount);
-
-            // Se deduce la cantidad de la cuenta del usuario...
             if (user.Account < loan.Amount)
             {
                 Console.WriteLine("El usuario no tiene suficiente cash para pagar (se le embargará la casa) ");
@@ -42,6 +38,10 @@ namespace UdemBank
                 return null;
             }
 
+            // Meter la cantidad en el savingGroup
+            SavingGroupController.AddAmountToSavingGroup(savingGroup, loan.Amount);
+
+            // Se deduce la cantidad de la cuenta del usuario...
             user = UserController.RemoveAmount(user, loan.Amount);
 
             // se debe obtener el Saving asociado al usuario y al savingGroups
@@ -49,6 +49,9 @@ namespace UdemBank
 
             // La cantidad se regresa al Saving.Invesment...
             SavingController.AddInvestmentToSaving(saving.Id, loan.Amount);
+
+            // indicar que el préstamo ya se pagó...
+            LoanController.UpdateLoanPaidStatus(loan, true);
 
             Console.WriteLine("Se pagó el préstamo correctamente :) ...");
             Console.ReadLine();

@@ -69,6 +69,7 @@ namespace UdemBank
                 return loanHistory;
             }
         }
+
         public static List<Loan> GetLoansByUser(User user)
         {
             using (var db = new UdemBankContext())
@@ -88,6 +89,28 @@ namespace UdemBank
                 return loans;
             }
         }
+        public static void UpdateLoanPaidStatus(Loan loan, bool newPaidStatus)
+        {
+            using (var db = new UdemBankContext())
+            {
+                // Verificar si el préstamo existe en la base de datos
+                var existingLoan = db.Loans.FirstOrDefault(l => l.Id == loan.Id);
+
+                if (existingLoan != null)
+                {
+                    // Actualizar el atributo "Paid" con el nuevo estado
+                    existingLoan.Paid = newPaidStatus;
+
+                    // Guardar los cambios en la base de datos
+                    db.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("El préstamo no fue encontrado en la base de datos.");
+                }
+                db.SaveChanges();
+            }
+        }
 
 
         public static Loan? GetLoanById(int Id)
@@ -96,6 +119,7 @@ namespace UdemBank
             var loan = db.Loans.SingleOrDefault(u => u.Id == Id);
             return loan;
         }
+
         public static List<Loan> GetLoans()
         {
             using var db = new UdemBankContext();

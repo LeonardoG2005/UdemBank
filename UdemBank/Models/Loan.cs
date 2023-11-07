@@ -31,6 +31,7 @@ namespace UdemBank
         [Required]
         public DateOnly DueDate { get; set; } // Plazo de pago
 
-        public double CurrentBalance { get; set; } // Saldo actual de cuenta de ahorros
+        public double CurrentBalance { get; set; } // Saldo actual de cuenta de ahorros+
+        public bool Paid { get; set; }
     }
 }

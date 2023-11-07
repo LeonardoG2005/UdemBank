@@ -11,8 +11,8 @@ using UdemBank;
 namespace UdemBank.Migrations
 {
     [DbContext(typeof(UdemBankContext))]
-    [Migration("20231105201742_InitMIgration")]
-    partial class InitMIgration
+    [Migration("20231107042927_initMigration")]
+    partial class initMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace UdemBank.Migrations
 
                     b.Property<DateOnly>("DueDate")
                         .HasColumnType("date");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("SavingId")
                         .HasColumnType("int");
@@ -147,6 +150,9 @@ namespace UdemBank.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("Rewarded")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

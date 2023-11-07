@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using Org.BouncyCastle.Utilities;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,6 +90,32 @@ namespace UdemBank.Services
         {
             double months = (date.Year - DateTime.Now.Year) * 12 + date.Month - DateTime.Now.Month;
             return months;
+        }
+
+        public static SavingGroup? ShowAvailableSavingGroups(User user)
+        {
+            var eligibleSavingGroups = SavingGroupController.GetEligibleSavingGroupsForUser(user);
+
+            // Crear una lista de cadenas con la combinación de nombre de grupo de ahorro y cantidad del préstamo
+            var groupsOptions = eligibleSavingGroups.Select(group => $"{group.Name}").ToList();
+
+            var option = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Selecciona un grupo de ahorro: ")
+                .AddChoices(groupsOptions));
+
+            // Extraer el Id del préstamo seleccionado a partir del texto seleccionado
+            var selectedGroup = eligibleSavingGroups.FirstOrDefault(group => $"{group.Name}" == option);
+
+            if (selectedGroup != null)
+            {
+                return selectedGroup;
+            }
+            else
+            {
+                Console.WriteLine("Selección no válida.");
+                Console.ReadLine();
+                return null;
+            }
         }
     }
 }

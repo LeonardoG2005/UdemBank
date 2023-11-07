@@ -37,6 +37,9 @@ namespace UdemBank.Migrations
                     b.Property<DateOnly>("DueDate")
                         .HasColumnType("date");
 
+                    b.Property<bool>("Paid")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("SavingId")
                         .HasColumnType("int");
 
@@ -144,6 +147,9 @@ namespace UdemBank.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("Rewarded")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

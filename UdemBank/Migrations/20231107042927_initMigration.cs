@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UdemBank.Migrations
 {
     /// <inheritdoc />
-    public partial class InitMIgration : Migration
+    public partial class initMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,7 +25,8 @@ namespace UdemBank.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Account = table.Column<double>(type: "double", nullable: false)
+                    Account = table.Column<double>(type: "double", nullable: false),
+                    Rewarded = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,7 +97,8 @@ namespace UdemBank.Migrations
                     Date = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     DueDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    CurrentBalance = table.Column<double>(type: "double", nullable: false)
+                    CurrentBalance = table.Column<double>(type: "double", nullable: false),
+                    Paid = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
