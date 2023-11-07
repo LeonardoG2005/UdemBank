@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto.Tls;
+﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Crypto.Tls;
 using Piranha;
 using Spectre.Console;
 using System;
@@ -158,6 +159,47 @@ namespace UdemBank.Controllers
                     Console.ReadLine();
                     AnsiConsole.Clear();
                     return user;
+                }
+            }
+        }
+
+        //método que devuelve todos los usuarios que pertenecen a grupos en los que está un usuario
+        public static List<User>? GetUsersInEligibleSavingGroups(User user)
+        {
+            using (var db = new UdemBankContext())
+            {
+                // Paso 1 : Se obtienen todos los grupos de ahorro a los que pertenece el usuario.
+                var UserSavingGroups = SavingGroupController.GetSavingGroupsByUser(user);
+
+                if (UserSavingGroups != null)
+                {
+                    // Paso 2: Los Id's 
+                    var userSavingGroupIds = UserSavingGroups.Select(group => group.Id).ToList();
+
+
+                    // Paso 3 : Obtener todos los Savings asociados a los grupos de ahorro en los que se encuentra el usuario
+                    var savingsInUserGroups = db.Savings
+                        .Where(s => userSavingGroupIds.Contains(s.SavingGroupId))
+                        .Include(s => s.User) // Incluir el objeto User relacionado
+                        .ToList();
+
+                    // Paso 4 : Id's again 
+                    var userIdsInUserGroups = savingsInUserGroups.Select(s => s.UserId).ToList();
+
+                    // Paso 5 : Obtener todos los usuarios que se encuentran en grupos de ahorro a los que pertenece el usuario
+                    var usersInUserGroups = db.Users
+                        .Where(u => userIdsInUserGroups.Contains(u.Id))
+                        .ToList();
+
+                    // Retornar la lista de usuarios que se encuentran en los grupos de ahorro a los que pertenece el usuario.
+                    return usersInUserGroups;
+                }
+                else
+                {
+                    Console.WriteLine("El usuario no se encuentra en nigún grupo de ahorro...");
+                    Console.ReadLine();
+                    Console.Clear();
+                    return null;
                 }
             }
         }

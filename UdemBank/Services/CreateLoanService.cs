@@ -96,14 +96,18 @@ namespace UdemBank.Services
         {
             var eligibleSavingGroups = SavingGroupController.GetEligibleSavingGroupsForUser(user);
 
-            // Crear una lista de cadenas con la combinación de nombre de grupo de ahorro y cantidad del préstamo
+            if (eligibleSavingGroups == null)
+            {
+                Console.WriteLine("lol");
+                return null;
+            }
             var groupsOptions = eligibleSavingGroups.Select(group => $"{group.Name}").ToList();
 
             var option = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Selecciona un grupo de ahorro: ")
                 .AddChoices(groupsOptions));
 
-            // Extraer el Id del préstamo seleccionado a partir del texto seleccionado
+            // Extraer el Id del grupo seleccionado a partir del texto seleccionado
             var selectedGroup = eligibleSavingGroups.FirstOrDefault(group => $"{group.Name}" == option);
 
             if (selectedGroup != null)

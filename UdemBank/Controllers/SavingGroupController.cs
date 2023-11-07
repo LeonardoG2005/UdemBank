@@ -137,58 +137,32 @@ namespace UdemBank
 
             return savingGroups;
         }
-
-        //método que devuelve todos los usuarios que pertenecen a grupos en los que está un usuario
-        public static List<User> GetUsersInEligibleSavingGroups(User user)
-        {
-            using (var db = new UdemBankContext())
-            {
-                // Paso 1: Obtener todos los Savings asociados al usuario con inclusión de objetos relacionados
-                var userSavings = db.Savings
-                    .Where(s => s.UserId == user.Id)
-                    .Include(s => s.SavingGroup) // Incluir el objeto SavingGroup relacionado
-                    .ToList();
-
-                // Paso 2: Obtener todos los grupos de ahorro a los que pertenece el usuario
-                var userSavingGroupIds = userSavings.Select(s => s.SavingGroup.Id).ToList();
-                var userSavingGroups = db.SavingGroups
-                    .Where(g => userSavingGroupIds.Contains(g.Id))
-                    .ToList();
-
-                // Paso 3: Obtener todos los Savings asociados a los grupos de ahorro en los que se encuentra el usuario
-                var savingsInUserGroups = db.Savings
-                    .Where(s => userSavingGroupIds.Contains(s.SavingGroupId))
-                    .Include(s => s.User) // Incluir el objeto User relacionado
-                    .ToList();
-
-                // Paso 4: Obtener todos los usuarios que se encuentran en grupos de ahorro a los que pertenece el usuario
-                var userIdsInUserGroups = savingsInUserGroups.Select(s => s.UserId).ToList();
-                var usersInUserGroups = db.Users
-                    .Where(u => userIdsInUserGroups.Contains(u.Id))
-                    .ToList();
-
-                // Retornar la lista de grupos de ahorro a los que el usuario podría solicitar un préstamo
-                return usersInUserGroups;
-            }
-        }
-
-        public static List<SavingGroup> GetEligibleSavingGroupsForUser(User user)
+        public static List<SavingGroup>? GetEligibleSavingGroupsForUser(User user)
         {
             using (var db = new UdemBankContext())
             {
                 // Obtener la lista de usuarios que pertenecen a grupos de ahorro a los que el usuario actual también pertenece
-                var usersInUserGroups = SavingGroupController.GetUsersInEligibleSavingGroups(user);
+                var usersInUserGroups = UserController.GetUsersInEligibleSavingGroups(user);
+
+                if (usersInUserGroups == null)
+                {
+                    Console.WriteLine("El usuario no comparte grupos de ahorro con ningún otro usuario...");
+                    return null;
+                }
+
+                // Id's
+                var usersInUserGroupsIds = usersInUserGroups.Select(group => group.Id).ToList();
 
                 // Paso 1: Obtener todos los Savings asociados a los usuarios
                 var savingsAssociatedWithUsers = db.Savings
                     .Include(s => s.SavingGroup) // Incluir la relación SavingGroup
-                    .Where(s => usersInUserGroups.Select(u => u.Id).Contains(s.UserId))
+                    .Where(s => usersInUserGroupsIds.Contains(s.UserId))
                     .ToList();
 
                 // Paso 2: A partir de los Savings, obtener los Grupos de Ahorro
-                var eligibleSavingGroups = db.SavingGroups
-                    .Where(g => savingsAssociatedWithUsers
-                        .Any(s => s.SavingGroupId == g.Id))
+                var eligibleSavingGroups = savingsAssociatedWithUsers
+                    .Select(s => s.SavingGroup)
+                    .Distinct()
                     .ToList();
 
                 return eligibleSavingGroups;
