@@ -9,7 +9,7 @@ using static UdemBank.Enums;
 
 namespace UdemBank
 {
-    internal class Trade : ITransaction
+    public class Trade : ITransaction
     {
         [Key]
         public int Id { get; set; }

@@ -35,25 +35,6 @@ namespace UdemBank
                 return null;
             }
 
-            if (!SavingGroups.Any())
-            {
-                Console.Write("El savingGroups.Count() del usuario es 0...");
-                Console.ReadLine();
-                return null;
-            }
-
-            foreach (var savingGroup in SavingGroups)
-            {
-                if (savingGroup != null)
-                {
-                    Console.WriteLine($"Nombre del grupo de ahorro: {savingGroup.Name}");
-                }
-                else
-                {
-                    Console.WriteLine("Nombre del grupo de ahorro: null");
-                }
-            }
-
             var SavingGroupsArray = SavingGroups
             .Where(x => x != null) // Filtrar elementos nulos
             .Select(x => x.Name)

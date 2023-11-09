@@ -152,7 +152,6 @@ namespace UdemBank
         }
         private static void UserMenu(int Id)
         {
-            
             AnsiConsole.Clear();
 
             while (true)
@@ -205,9 +204,25 @@ namespace UdemBank
                             user = PayLoanService.ShowInfoAndPayLoan(user, loan);
                         }
                         break;
-
+                
                     case UserMenuOption.SolicitarPrestamo:
-                        CreateLoanService.ShowAvailableSavingGroups(user);
+
+                        var selectedGroup = CreateLoanService.ShowAvailableSavingGroups(user);
+                        if (selectedGroup != null)
+                        {
+                            if (UserController.IsUserInSavingGroup(user, selectedGroup))
+                            {
+                                CreateLoanService.CreateLoan(user, selectedGroup, 0.03);
+                            }
+                            else
+                            {
+                                CreateLoanService.CreateLoan(user, selectedGroup, 0.05);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Desde el menú ya salió que ese grupo ni existe ._.");
+                        }
                         break;
 
                     case UserMenuOption.Salir:
@@ -278,8 +293,6 @@ namespace UdemBank
         }
         private static void SavingGroupMenu(int Id, int savingGroupId)
         {
-            AnsiConsole.Clear();
-
             while (true)
             {
                 User? user = UserController.VerifyExistingUserById(Id);
@@ -346,15 +359,10 @@ namespace UdemBank
                         break;
 
                     case SavingGroupOption.DisolverGrupoDeAhorro:
+
                         DissolveGroupService.DissolveSavingGroup(SavingGroup);
 
-                        SavingGroup = SavingGroupController.GetSavingGroupById(savingGroupId);
-
-                        if (SavingGroup == null)
-                        {
-                            return;
-                        }
-                        break;
+                        return;
 
                     case SavingGroupOption.Salir:
                         return;

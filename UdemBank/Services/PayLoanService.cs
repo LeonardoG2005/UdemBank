@@ -28,7 +28,14 @@ namespace UdemBank
 
         public static User? PayLoan (User user, Loan loan)
         {
-            SavingGroup? savingGroup = SavingGroupController.GetSavingGroupById(loan.Saving.SavingGroupId);
+            // Hay que obtener el SavingGroup a partir del loan...
+            SavingGroup? savingGroup = SavingGroupController.GetSavingGroupForLoan(loan);
+
+            if (savingGroup == null)
+            {
+                Console.WriteLine("No se encontró un grupo de ahorro asociado al préstamo.");
+                return null;
+            }
 
             if (user.Account < loan.Amount)
             {
@@ -47,8 +54,11 @@ namespace UdemBank
             // se debe obtener el Saving asociado al usuario y al savingGroups
             Saving? saving = SavingController.GetSavingByUserAndSavingGroup(user, savingGroup);
 
-            // La cantidad se regresa al Saving.Invesment...
-            SavingController.AddInvestmentToSaving(saving.Id, loan.Amount);
+            if (UserController.IsUserInSavingGroup(user, savingGroup))
+            {
+                // La cantidad se regresa al Saving.Invesment...
+                SavingController.AddInvestmentToSaving(saving.Id, loan.Amount);
+            }
 
             // indicar que el préstamo ya se pagó...
             LoanController.UpdateLoanPaidStatus(loan, true);

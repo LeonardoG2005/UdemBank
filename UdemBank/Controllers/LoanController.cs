@@ -10,7 +10,7 @@ namespace UdemBank
 {
     internal class LoanController
     {
-        public static void AddLoan(Saving saving, double amount, DateOnly dueDate)
+        public static void AddLoan(Saving saving, double amount, DateOnly dueDate, double currentBalance)
         {
             using var db = new UdemBankContext();
 
@@ -26,7 +26,8 @@ namespace UdemBank
                     Amount = amount,
                     Date = DateTimeOffset.Now,
                     DueDate = dueDate,
-                    Type = TradeType.PrestamoGrupoAhorro
+                    Type = TradeType.PrestamoGrupoAhorro,
+                    CurrentBalance = currentBalance
                 };
 
                 db.Loans.Add(newLoan);
@@ -69,7 +70,6 @@ namespace UdemBank
                 return loanHistory;
             }
         }
-
         public static List<Loan> GetLoansByUser(User user)
         {
             using (var db = new UdemBankContext())

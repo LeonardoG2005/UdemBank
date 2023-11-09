@@ -32,6 +32,11 @@ namespace UdemBank.Services
             // se debe obtener el Saving asociado al usuario y al savingGroups
             Saving? saving = SavingController.GetSavingByUserAndSavingGroup(user, savingGroup);
 
+            if (saving == null)
+            {
+                saving = SavingController.AddSaving(user, savingGroup, false);
+            }
+
             // El plazo de pago no debe ser menor a 2 meses...
             double months = CalculateMonths(dateOnly);
 
@@ -51,27 +56,28 @@ namespace UdemBank.Services
             // Se obtiene el interés...
             double interest = CalculateInterest(amount, dateOnly, interestRate);
 
-            // El préstamo no puede superar el monto total invertido por el usuario
-            if (saving.Investment >= amount)
+            if (UserController.IsUserInSavingGroup(user, savingGroup)) 
             {
-                // Se crea el Loan (la deuda es amount + interest)
-                SavingGroupController.DeduceAmountToSavingGroup(savingGroup, amount);
-                LoanController.AddLoan(saving, amount + interest, dateOnly);
-                
-                // Hay que deducir la cantidad al Saving asociado al usuario y al savingGroups
-                SavingController.DeduceInvestmentToSaving(savingGroup.Id, amount);
-
-                // Y hay que SUMAR la cantidad al account del User.
-                UserController.AddAmount(user, amount);
-
-                Console.WriteLine("Se hizo el prestamo correctamente :) ...");
-                Console.ReadLine();
+                if (!(saving.Investment >= amount))
+                {
+                    Console.WriteLine("El usuario no poseé suficiente capital...");
+                    Console.ReadLine();
+                    AnsiConsole.Clear();
+                    return;
+                }
             }
-            else
-            {
-                Console.WriteLine("El usuario no poseé suficiente capital...");
-                Console.ReadLine();
-            }
+            // Se crea el Loan (la deuda es amount + interest)
+            SavingGroupController.DeduceAmountToSavingGroup(savingGroup, amount);
+            LoanController.AddLoan(saving, amount + interest, dateOnly, user.Account);
+            
+            // Hay que deducir la cantidad al Saving asociado al usuario y al savingGroups
+            SavingController.DeduceInvestmentToSaving(savingGroup.Id, amount);
+
+            // Y hay que SUMAR la cantidad al account del User.
+            UserController.AddAmount(user, amount);
+
+            Console.WriteLine("Se hizo el prestamo correctamente :) ...");
+            Console.ReadLine();
         }
 
         public static void CreateLoanNotInSavingGroup(User user, SavingGroup savingGroup)

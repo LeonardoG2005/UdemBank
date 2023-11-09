@@ -9,7 +9,7 @@ using static UdemBank.Enums;
 
 namespace UdemBank
 {
-    internal class Loan : ITransaction
+    public class Loan : ITransaction 
     {
         [Key]
         public int Id { get; set; }
@@ -31,7 +31,9 @@ namespace UdemBank
         [Required]
         public DateOnly DueDate { get; set; } // Plazo de pago
 
-        public double CurrentBalance { get; set; } // Saldo actual de cuenta de ahorros+
+        public double CurrentBalance { get; set; } // Saldo actual de cuenta de ahorros
+
+        [Required]
         public bool Paid { get; set; }
     }
 }

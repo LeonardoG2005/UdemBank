@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace UdemBank.Controllers
 {
     internal class SavingController
     {
-        public static void AddSaving(User user, SavingGroup SavingGroup, bool affiliation)
+        public static Saving? AddSaving(User user, SavingGroup SavingGroup, bool affiliation)
         {
             using var db = new UdemBankContext(); // Conexión a la base de datos
 
@@ -31,12 +32,14 @@ namespace UdemBank.Controllers
                 db.SaveChanges();
                 Console.WriteLine();
                 Console.ReadLine();
+                AnsiConsole.Clear();
+                return newSaving;
             }
             else
             {
                 Console.WriteLine("Grave...");
                 Console.ReadLine();
-                return;
+                return null;
             }
         }
         public static List<Saving> GetSavingsByUserSavingGroupName(string savingGroupName)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UdemBank
 {
-    internal class Saving
+    public class Saving
     {
         //Data annotations
         [Key]

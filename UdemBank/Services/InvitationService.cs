@@ -16,6 +16,21 @@ namespace UdemBank.Services
             var name = AnsiConsole.Ask<string>("Nombre de usuario al que desea invitar:");
             User? user = UserController.GetUserByName(name);
 
+            if (user == null)
+            {
+                Console.WriteLine("Ese usuario ni existe ._.");
+                Console.ReadLine();
+                AnsiConsole.Clear();
+                return;
+            }
+            // verificar que el usuario no se encuentre en el grupo de ahorro
+            if (UserController.IsUserInSavingGroup(user, SavingGroup))
+            {
+                Console.WriteLine("El usuario ya se encuentra en el grupo :)");
+                Console.ReadLine();
+                AnsiConsole.Clear();
+            }
+
             if (user != null)
             {
                 List<SavingGroup> SavingGroups = SavingGroupController.GetSavingGroupsByUser(user);
@@ -26,11 +41,14 @@ namespace UdemBank.Services
                         // Debe aparecer una relación Saving
                         SavingController.AddSaving(user, SavingGroup, true);
                         Console.WriteLine("Se invitó al usuario correctamente... :)");
+                        Console.ReadLine();
+                        AnsiConsole.Clear();
                     }
                     else
                     {
                         Console.WriteLine("El usuario ya se encuentra en 3 grupos de ahorro...");
                         Console.ReadLine();
+                        AnsiConsole.Clear();
                     }
                 }
                 else
@@ -45,6 +63,7 @@ namespace UdemBank.Services
             {
                 Console.WriteLine("No se encontró el usuario...");
                 Console.ReadLine();
+                AnsiConsole.Clear();
             }
         }
     }

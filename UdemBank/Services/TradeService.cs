@@ -21,7 +21,7 @@ namespace UdemBank.Services
             {
                 // Se crea el Trade
                 SavingGroupController.AddAmountToSavingGroup(savingGroup, amount);
-                TradeController.AddTrade(user, savingGroup, TradeType.TransferenciaGrupoAhorro, amount, currentDateTime);
+                TradeController.AddTrade(user, savingGroup, amount, currentDateTime, user.Account);
 
                 // Hay que agregar la cantidad al Saving asociado al usuario y al savingGroups
                 Saving? saving = SavingController.GetSavingByUserAndSavingGroup(user, savingGroup);

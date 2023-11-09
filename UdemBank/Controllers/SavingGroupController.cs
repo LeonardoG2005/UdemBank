@@ -77,7 +77,7 @@ namespace UdemBank
         public static SavingGroup? GetSavingGroupWithBiggestIncome()
         {
             using (var db = new UdemBankContext())
-            {
+            { 
                 // Obtén el SavingGroup con el TotalAmount más alto
                 var savingGroupWithBiggestIncome = db.SavingGroups
                     .OrderByDescending(sg => sg.TotalAmount)
@@ -101,8 +101,6 @@ namespace UdemBank
 
             var userId = existingUser.Id; // Copiar el valor en una variable local
 
-            Console.WriteLine(userId);
-            Console.ReadLine();
 
             var savings = db.Savings
                 .Include(s => s.SavingGroup) // Cargar las entidades SavingGroup relacionadas
@@ -123,17 +121,7 @@ namespace UdemBank
                 return null;
             }
 
-            foreach (var saving in savings)
-            {
-                Console.WriteLine($"El saving tiene userId :{saving.UserId}");
-            }
-
             var savingGroups = savings.Select(s => s.SavingGroup).ToList();
-
-            foreach (var savinggroup in savingGroups)
-            {
-                Console.WriteLine($"El savingGroup tiene userId :{savinggroup.UserId}");
-            }
 
             return savingGroups;
         }
@@ -151,7 +139,7 @@ namespace UdemBank
                 }
 
                 // Id's
-                var usersInUserGroupsIds = usersInUserGroups.Select(group => group.Id).ToList();
+                var usersInUserGroupsIds = usersInUserGroups.Select(user => user.Id).ToList();
 
                 // Paso 1: Obtener todos los Savings asociados a los usuarios
                 var savingsAssociatedWithUsers = db.Savings
@@ -166,6 +154,25 @@ namespace UdemBank
                     .ToList();
 
                 return eligibleSavingGroups;
+            }
+        }
+        public static SavingGroup? GetSavingGroupForLoan(Loan loan)
+        {
+            using (var db = new UdemBankContext())
+            {
+                // Obtener el préstamo (Loan) con la relación Saving y SavingGroup incluidas
+                var loanWithSavingGroup = db.Loans
+                    .Include(l => l.Saving)
+                        .ThenInclude(s => s.SavingGroup)
+                    .SingleOrDefault(l => l.Id == loan.Id);
+
+                if (loanWithSavingGroup != null)
+                {
+                    // Obtener el Grupo de Ahorro (SavingGroup) a través del Saving asociado al préstamo
+                    return loanWithSavingGroup.Saving.SavingGroup;
+                }
+
+                return null;
             }
         }
 

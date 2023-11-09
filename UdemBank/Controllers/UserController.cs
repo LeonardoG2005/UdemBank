@@ -176,7 +176,6 @@ namespace UdemBank.Controllers
                     // Paso 2: Los Id's 
                     var userSavingGroupIds = UserSavingGroups.Select(group => group.Id).ToList();
 
-
                     // Paso 3 : Obtener todos los Savings asociados a los grupos de ahorro en los que se encuentra el usuario
                     var savingsInUserGroups = db.Savings
                         .Where(s => userSavingGroupIds.Contains(s.SavingGroupId))
@@ -225,6 +224,15 @@ namespace UdemBank.Controllers
             using var db = new UdemBankContext();
             var users = db.Users.ToList();
             return users;
+        }
+        public static bool IsUserInSavingGroup(User user, SavingGroup savingGroup)
+        {
+            using (var db = new UdemBankContext())
+            {
+                // Verificar si el usuario pertenece al grupo de ahorro y el atributo Affiliation es true
+                return db.Savings
+                    .Any(s => s.UserId == user.Id && s.SavingGroupId == savingGroup.Id && s.Affiliation);
+            }
         }
     }
 }

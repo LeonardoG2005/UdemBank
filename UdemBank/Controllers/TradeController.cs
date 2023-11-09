@@ -13,7 +13,7 @@ namespace UdemBank.Controllers
 {
     internal class TradeController
     {
-        public static void AddTrade(User user, SavingGroup savingGroup, TradeType type, int amount, DateTime date)
+        public static void AddTrade(User user, SavingGroup savingGroup, int amount, DateTime date, double currentBalance)
         {
             using var db = new UdemBankContext();
 
@@ -30,7 +30,8 @@ namespace UdemBank.Controllers
                 SavingId = saving.Id,
                 Amount = amount,
                 Date = date,
-                Type = type
+                Type = TradeType.TransferenciaGrupoAhorro,
+                CurrentBalance = currentBalance
             };
 
             db.Trades.Add(trade);

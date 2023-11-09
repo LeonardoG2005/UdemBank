@@ -21,7 +21,6 @@ namespace UdemBank.Services
             Console.ReadLine();
             Console.Clear();
         }
-
         public static void RewardUser()
         {
             var userName = AnsiConsole.Ask<string>("Ingrese el nombre del usuario : ");
