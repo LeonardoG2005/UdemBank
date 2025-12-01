@@ -2,8 +2,6 @@
 
 Sistema web de gestión bancaria cooperativa que permite administrar grupos de ahorro, solicitar préstamos y realizar transacciones.
 
-## Descripción
-
 UdemBank es una aplicación web desarrollada con ASP.NET Core MVC que simula un sistema bancario cooperativo. Los usuarios pueden crear grupos de ahorro, solicitar préstamos y gestionar sus finanzas de forma colaborativa.
 
 ### Características principales
@@ -70,8 +68,4 @@ UdemBank/
 - Los intereses se calculan según el plazo del préstamo
 - Los usuarios premiados reciben 1% menos en intereses
 - El usuario debe estar afiliado al grupo para solicitar préstamos
-
-## Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
