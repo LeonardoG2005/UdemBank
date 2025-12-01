@@ -1,0 +1,42 @@
+@model UdemBank.Trade
+
+@{
+    ViewData["Title"] = "Detalles de Transacción";
+}
+
+<h1>Detalles de la Transacción</h1>
+
+<div>
+    <h4>Transacción #@Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Usuario</dt>
+        <dd class="col-sm-10">@Model.Saving.User.Name</dd>
+        <dt class="col-sm-2">Grupo de Ahorro</dt>
+        <dd class="col-sm-10">@Model.Saving.SavingGroup.Name</dd>
+        <dt class="col-sm-2">Tipo</dt>
+        <dd class="col-sm-10">
+            @switch (Model.Type)
+            {
+                case Enums.TradeType.ConsignacionCuentaAhorro:
+                    <span class="badge bg-primary">Consignación a Cuenta de Ahorro</span>
+                    break;
+                case Enums.TradeType.TransferenciaGrupoAhorro:
+                    <span class="badge bg-info">Transferencia a Grupo de Ahorro</span>
+                    break;
+                case Enums.TradeType.PrestamoGrupoAhorro:
+                    <span class="badge bg-warning">Préstamo de Grupo de Ahorro</span>
+                    break;
+            }
+        </dd>
+        <dt class="col-sm-2">Monto</dt>
+        <dd class="col-sm-10">$@Model.Amount.ToString("N2")</dd>
+        <dt class="col-sm-2">Fecha</dt>
+        <dd class="col-sm-10">@Model.Date.ToString("yyyy-MM-dd HH:mm")</dd>
+        <dt class="col-sm-2">Saldo Actual</dt>
+        <dd class="col-sm-10">$@Model.CurrentBalance.ToString("N2")</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

@@ -1,0 +1,27 @@
+@model UdemBank.Loan
+
+@{
+    ViewData["Title"] = "Eliminar Préstamo";
+}
+
+<h1>Eliminar Préstamo</h1>
+
+<h3>¿Está seguro que desea eliminar este préstamo?</h3>
+<div>
+    <h4>Préstamo #@Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Usuario</dt>
+        <dd class="col-sm-10">@Model.Saving.User.Name</dd>
+        <dt class="col-sm-2">Monto</dt>
+        <dd class="col-sm-10">$@Model.Amount.ToString("N2")</dd>
+        <dt class="col-sm-2">Vencimiento</dt>
+        <dd class="col-sm-10">@Model.DueDate.ToString("yyyy-MM-dd")</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

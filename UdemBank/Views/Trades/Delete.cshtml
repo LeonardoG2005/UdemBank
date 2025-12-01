@@ -1,0 +1,27 @@
+@model UdemBank.Trade
+
+@{
+    ViewData["Title"] = "Eliminar Transacción";
+}
+
+<h1>Eliminar Transacción</h1>
+
+<h3>¿Está seguro que desea eliminar esta transacción?</h3>
+<div>
+    <h4>Transacción #@Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Usuario</dt>
+        <dd class="col-sm-10">@Model.Saving.User.Name</dd>
+        <dt class="col-sm-2">Monto</dt>
+        <dd class="col-sm-10">$@Model.Amount.ToString("N2")</dd>
+        <dt class="col-sm-2">Fecha</dt>
+        <dd class="col-sm-10">@Model.Date.ToString("yyyy-MM-dd HH:mm")</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

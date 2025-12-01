@@ -24,9 +24,9 @@ namespace UdemBank
 
         public TradeType Type { get; set; }
 
-        public DateTimeOffset Date { get; set; } // Cambiar a DateTimeOffset para incluir hora
+        public DateTimeOffset Date { get; set; }
 
-        public double CurrentBalance { get; set; } // Saldo actual de cuenta de ahorros
+        public double CurrentBalance { get; set; }
 
     }
 }

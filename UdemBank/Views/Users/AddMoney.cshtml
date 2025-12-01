@@ -1,0 +1,26 @@
+@model UdemBank.User
+
+@{
+    ViewData["Title"] = "Agregar Dinero";
+}
+
+<h1>Agregar Dinero a la Cuenta</h1>
+
+<h4>Usuario: @Model.Name</h4>
+<p>Saldo actual: <strong>$@Model.Account.ToString("N2")</strong></p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddMoney" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="form-group mb-3">
+                <label for="amount" class="control-label">Cantidad a Agregar</label>
+                <input type="number" name="amount" step="0.01" min="0.01" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar" class="btn btn-success" />
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

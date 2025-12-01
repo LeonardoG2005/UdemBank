@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenido a UdemBank</h1>
+    <p class="lead">Sistema de Gestión Bancaria Cooperativa</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-3">
+        <div class="card text-white mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">
+            <div class="card-header" style="background: transparent; border: none;">Usuarios</div>
+            <div class="card-body" style="background: transparent;">
+                <h5 class="card-title display-4">@ViewData["UsersCount"]</h5>
+                <p class="card-text">Usuarios registrados</p>
+                <a asp-controller="Users" asp-action="Index" class="btn btn-light">Ver todos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white mb-3" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border: none;">
+            <div class="card-header" style="background: transparent; border: none;">Grupos de Ahorro</div>
+            <div class="card-body" style="background: transparent;">
+                <h5 class="card-title display-4">@ViewData["SavingGroupsCount"]</h5>
+                <p class="card-text">Grupos activos</p>
+                <a asp-controller="SavingGroups" asp-action="Index" class="btn btn-light">Ver todos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white mb-3" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none;">
+            <div class="card-header" style="background: transparent; border: none;">Préstamos</div>
+            <div class="card-body" style="background: transparent;">
+                <h5 class="card-title display-4">@ViewData["LoansCount"]</h5>
+                <p class="card-text">Préstamos activos</p>
+                <a asp-controller="Loans" asp-action="Index" class="btn btn-light">Ver todos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white mb-3" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border: none;">
+            <div class="card-header" style="background: transparent; border: none;">Transacciones</div>
+            <div class="card-body" style="background: transparent;">
+                <h5 class="card-title display-4">@ViewData["TradesCount"]</h5>
+                <p class="card-text">Transacciones realizadas</p>
+                <a asp-controller="Trades" asp-action="Index" class="btn btn-light">Ver todas</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5>Funcionalidades del Sistema</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Gestión de usuarios con cuentas bancarias</li>
+                    <li class="list-group-item">Creación y administración de grupos de ahorro</li>
+                    <li class="list-group-item">Solicitud de préstamos con intereses calculados</li>
+                    <li class="list-group-item">Registro de transacciones y movimientos</li>
+                    <li class="list-group-item">Sistema de recompensas por fidelización</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

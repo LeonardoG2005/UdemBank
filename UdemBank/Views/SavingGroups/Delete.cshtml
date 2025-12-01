@@ -1,0 +1,27 @@
+@model UdemBank.SavingGroup
+
+@{
+    ViewData["Title"] = "Eliminar Grupo";
+}
+
+<h1>Eliminar Grupo de Ahorro</h1>
+
+<h3>¿Está seguro que desea eliminar este grupo?</h3>
+<div>
+    <h4>Grupo de Ahorro</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Creador</dt>
+        <dd class="col-sm-10">@Model.User.Name</dd>
+        <dt class="col-sm-2">Capital</dt>
+        <dd class="col-sm-10">$@Model.TotalAmount.ToString("N2")</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace UdemBank
 {
-    internal class UdemBankContext:DbContext
+    public class UdemBankContext : DbContext
     {
+        public UdemBankContext(DbContextOptions<UdemBankContext> options) : base(options)
+        {
+        }
+
         public DbSet<Saving> Savings { get; set; }
         public DbSet<SavingGroup> SavingGroups { get; set; }
         public DbSet<Trade> Trades { get; set; }
@@ -17,8 +21,10 @@ namespace UdemBank
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .UseMySql("Server=127.0.0.1;Port=3306;Database=clean_code;User=root;Password=Guernica1603;", new MySqlServerVersion(new Version(8, 0, 34)));
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=udem_bank.db");
+            }
         }
     }
 }

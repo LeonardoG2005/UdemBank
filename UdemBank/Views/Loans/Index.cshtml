@@ -1,0 +1,52 @@
+@model IEnumerable<UdemBank.Loan>
+
+@{
+    ViewData["Title"] = "Préstamos";
+}
+
+<h1>Préstamos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Préstamo</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Grupo</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Vencimiento</th>
+            <th>Pagado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Saving.User.Name</td>
+            <td>@item.Saving.SavingGroup.Name</td>
+            <td>$@item.Amount.ToString("N2")</td>
+            <td>@item.Date.ToString("yyyy-MM-dd")</td>
+            <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
+            <td>
+                @if (item.Paid)
+                {
+                    <span class="badge bg-success">Pagado</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning">Pendiente</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalles</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

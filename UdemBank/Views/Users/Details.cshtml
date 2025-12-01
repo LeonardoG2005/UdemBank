@@ -1,0 +1,73 @@
+@model UdemBank.User
+
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<h1>Detalles del Usuario</h1>
+
+<div>
+    <h4>Información Personal</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+
+        <dt class="col-sm-2">Saldo en Cuenta</dt>
+        <dd class="col-sm-10">$@Model.Account.ToString("N2")</dd>
+
+        <dt class="col-sm-2">Premiado</dt>
+        <dd class="col-sm-10">
+            @if (Model.Rewarded)
+            {
+                <span class="badge bg-success">Sí ⭐ (1% menos en intereses)</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">No</span>
+            }
+        </dd>
+    </dl>
+
+    @if (ViewBag.Savings != null && ViewBag.Savings.Count > 0)
+    {
+        <h4 class="mt-4">Grupos de Ahorro</h4>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Grupo</th>
+                    <th>Inversión</th>
+                    <th>Afiliado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var saving in ViewBag.Savings)
+                {
+                    <tr>
+                        <td>@saving.SavingGroup.Name</td>
+                        <td>$@saving.Investment.ToString("N2")</td>
+                        <td>
+                            @if (saving.Affiliation)
+                            {
+                                <span class="badge bg-success">Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">No</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="AddMoney" asp-route-id="@Model.Id" class="btn btn-success">Agregar Dinero</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

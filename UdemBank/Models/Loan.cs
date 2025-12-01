@@ -24,14 +24,14 @@ namespace UdemBank
         public double Amount { get; set; }
 
         [Required]
-        public DateTimeOffset Date { get; set; } // Cambiar a DateTimeOffset para incluir hora
+        public DateTimeOffset Date { get; set; }
 
         public TradeType Type { get; set; }
 
         [Required]
-        public DateOnly DueDate { get; set; } // Plazo de pago
+        public DateOnly DueDate { get; set; }
 
-        public double CurrentBalance { get; set; } // Saldo actual de cuenta de ahorros
+        public double CurrentBalance { get; set; }
 
         [Required]
         public bool Paid { get; set; }

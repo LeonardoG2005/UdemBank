@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace UdemBank
 {
-    // La idea es que los modelos no tengan lógica (toda la lógica va en los servicios)
     public class User
     {
         [Key]

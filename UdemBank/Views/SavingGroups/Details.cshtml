@@ -1,0 +1,59 @@
+@model UdemBank.SavingGroup
+
+@{
+    ViewData["Title"] = "Detalles del Grupo";
+}
+
+<h1>Detalles del Grupo de Ahorro</h1>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Creador</dt>
+        <dd class="col-sm-10">@Model.User.Name</dd>
+        <dt class="col-sm-2">Capital Total</dt>
+        <dd class="col-sm-10">$@Model.TotalAmount.ToString("N2")</dd>
+    </dl>
+
+    @if (ViewBag.Members != null && ViewBag.Members.Count > 0)
+    {
+        <h4 class="mt-4">Miembros del Grupo</h4>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Inversión</th>
+                    <th>Afiliado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in ViewBag.Members)
+                {
+                    <tr>
+                        <td>@member.User.Name</td>
+                        <td>$@member.Investment.ToString("N2")</td>
+                        <td>
+                            @if (member.Affiliation)
+                            {
+                                <span class="badge bg-success">Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">No</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>
